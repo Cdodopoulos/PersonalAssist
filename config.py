@@ -13,11 +13,12 @@ BASE_DIR = Path(__file__).parent
 
 # Configurações do Google Gemini
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
-MODEL_NAME = os.getenv("MODEL_NAME", "gemini-2.0-flash-lite")
+MODEL_NAME = os.getenv("MODEL_NAME", "gemini-flash-lite-latest")
 MODELS_PRIORITY = [
     MODEL_NAME,
     "gemini-flash-latest",
     "gemini-pro-latest",
+    "gemini-2.0-flash-lite",
     "gemini-2.0-flash"
 ]
 
