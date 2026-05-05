@@ -33,27 +33,34 @@ class GeminiService:
         )
 
         for model_name in self.priority_models:
-            try:
-                logger.info(f"Tentando gerar conteúdo com o modelo: {model_name}")
-                
-                model = genai.GenerativeModel(
-                    model_name=model_name,
-                    tools=tools_list,
-                    system_instruction=system_instruction
-                )
-                
-                chat = model.start_chat(enable_automatic_function_calling=True)
-                response = chat.send_message(prompt)
-                
-                if response.text:
-                    logger.info(f"Sucesso com o modelo: {model_name}")
-                    return {"response": response.text, "model_used": model_name}
-                
-            except Exception as e:
-                last_error = str(e)
-                logger.warning(f"Falha no modelo {model_name}: {last_error}")
-                # Continua para o próximo modelo na lista
-                continue
+            max_retries = 2
+            for attempt in range(max_retries):
+                try:
+                    logger.info(f"Tentando modelo: {model_name} (Tentativa {attempt+1})")
+                    
+                    model = genai.GenerativeModel(
+                        model_name=model_name,
+                        tools=tools_list,
+                        system_instruction=system_instruction
+                    )
+                    
+                    chat = model.start_chat(enable_automatic_function_calling=True)
+                    response = chat.send_message(prompt)
+                    
+                    if response.text:
+                        return {"response": response.text, "model_used": model_name}
+                    
+                except Exception as e:
+                    error_msg = str(e)
+                    if "429" in error_msg:
+                        import time
+                        wait_time = (attempt + 1) * 5
+                        logger.warning(f"Rate limit (429) no {model_name}. Esperando {wait_time}s...")
+                        time.sleep(wait_time)
+                        continue # Tenta novamente o mesmo modelo
+                    
+                    logger.warning(f"Falha no modelo {model_name}: {error_msg}")
+                    break # Pula para o próximo modelo na lista de prioridade
 
         # Se todos falharem
         logger.error(f"Todos os modelos falharam. Último erro: {last_error}")
