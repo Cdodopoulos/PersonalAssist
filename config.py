@@ -19,7 +19,7 @@ MODELS_PRIORITY = [
     "gemini-2.0-flash-lite",
     "gemini-flash-latest",
     "gemini-pro-latest",
-    "gemini-2.0-pro"
+    "gemini-2.5-flash"
 ]
 
 # Configurações da API
