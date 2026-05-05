@@ -31,8 +31,12 @@ class GoogleCalendarSkill(Skill):
     required_parameters = ["action"]
 
     def __init__(self):
-        self.creds_file = "token.json" # Token de acesso gerado após o primeiro login
-        self.client_secret_file = "credentials.json" # Arquivo que o usuário baixa do Google Cloud
+        # Lista de locais possíveis para os segredos (Render e Local)
+        possible_token_paths = ["token.json", "/etc/secrets/token.json"]
+        possible_creds_paths = ["credentials.json", "Credentials.json", "/etc/secrets/credentials.json", "/etc/secrets/Credentials.json"]
+        
+        self.token_path = next((p for p in possible_token_paths if os.path.exists(p)), "token.json")
+        self.client_secret_file = next((p for p in possible_creds_paths if os.path.exists(p)), "credentials.json")
 
     def _get_service(self):
         """Autentica e retorna o serviço do Google Calendar"""
@@ -40,8 +44,8 @@ class GoogleCalendarSkill(Skill):
             return None
             
         creds = None
-        if os.path.exists(self.creds_file):
-            creds = Credentials.from_authorized_user_file(self.creds_file, ['https://www.googleapis.com/auth/calendar'])
+        if os.path.exists(self.token_path):
+            creds = Credentials.from_authorized_user_file(self.token_path, ['https://www.googleapis.com/auth/calendar'])
         
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
