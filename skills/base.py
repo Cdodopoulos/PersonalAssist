@@ -37,8 +37,11 @@ class Skill(ABC):
     # Descrição do que a skill faz (para descoberta)
     description: str = "Skill base"
 
-    # Parâmetros esperados (para validação)
+    # Parâmetros esperados (nome: tipo)
     parameters: Dict[str, type] = {}
+
+    # Parâmetros estritamente obrigatórios
+    required_parameters: List[str] = []
 
     # Se requer sessão (padrão: True)
     requires_session: bool = True
@@ -60,16 +63,21 @@ class Skill(ABC):
     def validate_params(self, params: Dict[str, Any]) -> tuple[bool, str]:
         """
         Valida os parâmetros contra o esperado.
-
-        Returns:
-            (é_válido, mensagem_de_erro)
         """
-        for param_name, param_type in self.parameters.items():
-            if param_name not in params:
-                return False, f"Parâmetro '{param_name}' é obrigatório"
+        # 1. Verificar obrigatórios
+        for req in self.required_parameters:
+            if req not in params:
+                return False, f"Parâmetro '{req}' é obrigatório para a skill {self.name}"
 
-            if not isinstance(params[param_name], param_type):
-                return False, f"Parâmetro '{param_name}' deve ser do tipo {param_type.__name__}"
+        # 2. Verificar tipos (apenas se o parâmetro estiver presente)
+        for param_name, value in params.items():
+            if param_name in self.parameters:
+                expected_type = self.parameters[param_name]
+                if not isinstance(value, expected_type):
+                    # Pequeno hack para aceitar int como float
+                    if expected_type is float and isinstance(value, int):
+                        continue
+                    return False, f"Parâmetro '{param_name}' deve ser {expected_type.__name__}, recebeu {type(value).__name__}"
 
         return True, ""
 

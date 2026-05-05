@@ -17,6 +17,7 @@ class CalculatorSkill(Skill):
         "a": (int, float),
         "b": (int, float)  # Opcional para algumas operações
     }
+    required_parameters = ["operation", "a"]
 
     def execute(self, params: Dict[str, Any], session_id: str = "default") -> SkillResult:
         operation = params.get("operation", "").lower()

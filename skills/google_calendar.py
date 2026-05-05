@@ -28,6 +28,7 @@ class GoogleCalendarSkill(Skill):
         "start_time": str,   # ISO format ou descrição
         "end_time": str      # ISO format
     }
+    required_parameters = ["action"]
 
     def __init__(self):
         self.creds_file = "token.json" # Token de acesso gerado após o primeiro login

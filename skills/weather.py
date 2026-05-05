@@ -14,6 +14,7 @@ class WeatherSkill(Skill):
     parameters = {
         "city": str
     }
+    required_parameters = ["city"]
 
     def execute(self, params: Dict[str, Any], session_id: str = "default") -> SkillResult:
         import os

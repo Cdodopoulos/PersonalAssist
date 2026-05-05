@@ -15,6 +15,7 @@ class WebSearchSkill(Skill):
         "query": str,
         "max_results": int
     }
+    required_parameters = ["query"]
 
     def execute(self, params: Dict[str, Any], session_id: str = "default") -> SkillResult:
         query = params.get("query", "")

@@ -19,6 +19,7 @@ class NotesSkill(JsonPersistableSkill):
         "category": str,
         "index": int
     }
+    required_parameters = ["action"]
 
     def __init__(self):
         # Usa o diretório base das configurações para o arquivo

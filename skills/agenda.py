@@ -18,6 +18,7 @@ class AgendaSkill(JsonPersistableSkill):
         "date": str,
         "index": int
     }
+    required_parameters = ["action"]
 
     def __init__(self):
         file_path = config.BASE_DIR / "reminders.json"
