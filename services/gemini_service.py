@@ -32,8 +32,9 @@ class GeminiService:
             "Sua resposta deve ser útil, concisa e natural."
         )
 
+        last_error = "Nenhum modelo disponível respondeu."
         for model_name in self.priority_models:
-            max_retries = 2
+            max_retries = 3
             for attempt in range(max_retries):
                 try:
                     logger.info(f"Tentando modelo: {model_name} (Tentativa {attempt+1})")
@@ -51,16 +52,16 @@ class GeminiService:
                         return {"response": response.text, "model_used": model_name}
                     
                 except Exception as e:
-                    error_msg = str(e)
-                    if "429" in error_msg:
+                    last_error = str(e)
+                    if "429" in last_error:
                         import time
-                        wait_time = (attempt + 1) * 5
+                        wait_time = (attempt + 1) * 3
                         logger.warning(f"Rate limit (429) no {model_name}. Esperando {wait_time}s...")
                         time.sleep(wait_time)
-                        continue # Tenta novamente o mesmo modelo
+                        continue
                     
-                    logger.warning(f"Falha no modelo {model_name}: {error_msg}")
-                    break # Pula para o próximo modelo na lista de prioridade
+                    logger.warning(f"Falha no modelo {model_name}: {last_error}")
+                    break
 
         # Se todos falharem
         logger.error(f"Todos os modelos falharam. Último erro: {last_error}")
