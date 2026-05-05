@@ -69,6 +69,11 @@ class ToolRequest(BaseModel):
 # =============================================================================
 # ENDPOINTS
 # =============================================================================
+@app.get("/", include_in_schema=False)
+async def root():
+    """Keep-alive para UptimeRobot"""
+    return {"status": "online", "message": "Jitro Assistant is awake"}
+
 @app.get("/health")
 async def health_check():
     return {
