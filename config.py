@@ -14,6 +14,12 @@ BASE_DIR = Path(__file__).parent
 # Configurações do Google Gemini
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 MODEL_NAME = os.getenv("MODEL_NAME", "gemini-2.0-flash")
+MODELS_PRIORITY = [
+    MODEL_NAME,
+    "gemini-pro-latest",
+    "gemini-flash-latest",
+    "gemini-1.5-pro"
+]
 
 # Configurações da API
 JITRO_PORT = int(os.getenv("PORT", os.getenv("JITRO_PORT", 8000)))
