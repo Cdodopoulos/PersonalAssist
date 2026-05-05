@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Ambientes Virtuais
+venv/
+ENV/
+
+# Configurações Sensíveis (CRÍTICO)
+.env
+.env.test
+
+# Banco de dados e Logs
+*.db
+*.log
+gateway.log
+assistant.log
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Credenciais e Dados do Usuário
+Credentials.json
+token.json
+*.json
+!requirements.txt
+!custom_rules.json
+!.env.example

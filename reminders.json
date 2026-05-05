@@ -1,0 +1,14 @@
+[
+  {
+    "task": "Teste de tarefa",
+    "session_id": "test_session",
+    "created_at": "2026-04-29T14:16:13.756810",
+    "completed": false
+  },
+  {
+    "task": "Tarefa para listar",
+    "session_id": "test_session",
+    "created_at": "2026-04-29T14:16:13.794750",
+    "completed": false
+  }
+]

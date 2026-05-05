@@ -1,0 +1,8 @@
+{
+  "greeting": {
+    "code": "\n# Enhanced greeting rule with time\nimport datetime\nname = context.get('name', 'User')\nhour = datetime.datetime.now().hour\nif hour < 12:\n    greeting = \"Good morning\"\nelif hour < 18:\n    greeting = \"Good afternoon\"\nelse:\n    greeting = \"Good evening\"\nresult = f\"{greeting}, {name}! \ud83d\ude0a\"\n",
+    "description": "Time-based greeting rule",
+    "created_at": "2026-04-29T09:21:56.284059",
+    "updated_at": "2026-04-29T09:21:56.363778"
+  }
+}
