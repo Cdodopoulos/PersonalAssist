@@ -26,7 +26,7 @@ def google_search(query: str):
     return result.to_dict()
 
 def manage_agenda(action: str, task: str = None, index: int = None, date: str = None):
-    """Gerencia lembretes e tarefas. Ações: 'add', 'list', 'list_today', 'remove'."""
+    """Gerencia lembretes, tarefas e afazeres locais. Use para coisas simples do dia a dia. Ações: 'add', 'list', 'list_today', 'remove'."""
     params = {"action": action}
     if task: params["task"] = task
     if index is not None: params["index"] = index
@@ -35,7 +35,7 @@ def manage_agenda(action: str, task: str = None, index: int = None, date: str = 
     return result.to_dict()
 
 def manage_notes(action: str, content: str = None, index: int = None, category: str = None):
-    """Salva e recupera notas por categoria. Ações: 'save', 'list', 'delete'."""
+    """Salva e recupera notas e pensamentos organizados por categoria. Ações: 'save', 'list', 'delete'."""
     params = {"action": action}
     if content: params["content"] = content
     if index is not None: params["index"] = index
@@ -44,7 +44,7 @@ def manage_notes(action: str, content: str = None, index: int = None, category: 
     return result.to_dict()
 
 def sync_phone_calendar(action: str, summary: str = None, start_time: str = None):
-    """Acessa a agenda real do Google. Ações: 'list_events', 'add_event'."""
+    """Acessa a agenda oficial do Google Calendar (compromissos reais do celular). Use sempre que o usuário pedir para 'ver compromissos', 'olhar agenda' ou 'marcar reunião'. Ações: 'list_events', 'add_event'."""
     params = {"action": action}
     if summary: params["summary"] = summary
     if start_time: params["start_time"] = start_time

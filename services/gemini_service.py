@@ -24,9 +24,18 @@ class GeminiService:
             raise HTTPException(status_code=503, detail="Gemini API Key não configurada.")
 
         try:
+            system_instruction = (
+                "Você é o Jitro, um assistente pessoal inteligente e proativo. "
+                "Você tem acesso a ferramentas reais para gerenciar a vida do usuário. "
+                "Quando o usuário pedir para ver compromissos, pesquisar na web, calcular algo ou salvar notas, "
+                "USE AS FERRAMENTAS DISPONÍVEIS imediatamente sem dar desculpas de que é apenas uma IA. "
+                "Sua resposta deve ser útil, concisa e natural."
+            )
+            
             model = genai.GenerativeModel(
                 model_name=self.model_name,
-                tools=tools_list
+                tools=tools_list,
+                system_instruction=system_instruction
             )
             
             # Chat com suporte a chamadas automáticas de função
